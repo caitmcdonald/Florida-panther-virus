@@ -1,0 +1,61 @@
+---
+title: "snRNA interference revisions"
+author: "Cait McDonald"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+start_time <- Sys.time()
+```
+
+```{r, eval=F, echo=F}
+library(here)
+library(tidyverse)
+dir.create("results/", recursive = TRUE, showWarnings = FALSE) #no longer using this structure since I'm trying to use snakemake
+dir.create("fasta_files/", recursive = TRUE, showWarnings = FALSE)
+dir.create("scripts/", recursive = TRUE, showWarnings = FALSE)
+
+```
+
+## Overview
+Based on reviewer feedback, our goal is to integrate RNAseq results from Elliott's PBMC and fibroblast FeLV trial with the transcriptome projects pulled down from NCBI.
+
+## Pipeline (as I understand it)
+
+1. __Sample QC:__ fastqc + multiqc of raw RNAseq reads
+1. __Trimming & Mapping 1:__ Generate indexes of enFeLV from the [fasta file](enFeLV.fasta) that Elliott provided.
+1. __Trimming & Mapping 2:__ Run Elliott's cutadapt + bowtie2 script, which I have [amended](scripts/SA3_base_operations_cait.sh) to work with our new reads.
+1. __Quantification:__ generate read counts mapped to each index using TMM normalization.
+
+## Sample QC
+
+I've generated QC files of each library using this [batch script.](scripts/fastqc.sh)
+
+All the libraries look [okay](results/multiqc/raw/multiqc_report.html), except for `DC2Pool_NoIndex_L001_I1_001.fastq.gz` and `DC3Pool_NoIndex_L001_I1_001`, which are only 8bp long instead of 150bp:
+
+![](images/sequencecontent.png)
+
+The GC content for most samples is slightly higher and less normally distributed than expected. The jagged peaks could represent contamination (e.g. adapter content), which will hopefully resolve after trimming. The two red square lines are the failed DC2Pool and DC3Pool libraries:
+
+![](images/GCcontent.png)
+
+All the libraries have universal illumina adapter contamination, which will resolve with cutadapt.
+
+## Trimming and mapping 1
+
+I'll use the fasta file that Elliott provided to generate four separate indexes:
+
+```{bash}
+cd data
+for fa in ../fasta_files/*.fasta; do
+    bowtie2-build $fa ${fa%%.*}
+done
+```
+
+
+
