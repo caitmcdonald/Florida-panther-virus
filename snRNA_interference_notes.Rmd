@@ -48,14 +48,23 @@ All the libraries have universal illumina adapter contamination, which will reso
 
 ## Trimming and mapping 1
 
-I'll use the fasta file that Elliott provided to generate four separate indexes:
+I'll use the fasta file that Elliott provided to generate four separate indexes. First, I created a conda environment with the versions of cutadapt and bowtie2 that Elliott used:
 
-```{bash}
-cd data
-for fa in ../fasta_files/*.fasta; do
-    bowtie2-build $fa ${fa%%.*}
-done
+```{bash, eval=F}
+conda create -n enFeLV -c bioconda cutadapt=1.18 bowtie2=2.3.4.1
+conda activate enFeLV
 ```
+
+Then, generate indexes:
+```{bash, eval=F}
+for fa in fasta_files/*.fasta; do
+    bowtie2-build $fa ${fa%%.*};
+done
+
+mv fasta_files/*.bt2 data/
+```
+
+All fastq files __except__ the two that failed are in the `data`/ directory. (Note: had to remove _ in Mischief_minus and Mischief_plus for code to work)
 
 
 

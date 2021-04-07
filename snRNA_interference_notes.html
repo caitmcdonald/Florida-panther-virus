@@ -1720,6 +1720,15 @@ summary {
 </div>
 <div id="trimming-and-mapping-1" class="section level2">
 <h2>Trimming and mapping 1</h2>
+<p>I’ll use the fasta file that Elliott provided to generate four separate indexes. First, I created a conda environment with the versions of cutadapt and bowtie2 that Elliott used:</p>
+<pre class="bash"><code>conda create -n enFeLV -c bioconda cutadapt=1.18 bowtie2=2.3.4.1
+conda activate enFeLV</code></pre>
+<p>Then, generate indexes:</p>
+<pre class="bash"><code>for fa in fasta_files/*.fasta; do
+    bowtie2-build $fa ${fa%%.*};
+done
+
+mv fasta_files/*.bt2 data/</code></pre>
 </div>
 
 
