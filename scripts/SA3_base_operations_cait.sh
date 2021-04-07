@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #CHANGE SLURM OPTIONS:
-#SBATCH --mem 50GB
+#SBATCH --mem 70GB
+#SBATCH --cpus-per-task=22
 #SBATCH --time=10:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=cait.mcdonald@colostate.edu
