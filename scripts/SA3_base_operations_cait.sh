@@ -41,8 +41,8 @@ for currentFileName in $uniqlist; do
     ## CHANGE ABSOLUTE PATHS
     cutadapt -q 20 -o $fileName_1_f $(echo $currentFileName)_1.fastq;
     cutadapt -q 20 -o $fileName_2_f $(echo $currentFileName)_2.fastq;
-    cutadapt -aAGATCGGAAGAGCGT -aGATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f;
-    cutadapt -aAGATCGGAAGAGCGT -aGATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f;
+    cutadapt -aAGATCGGAAGAGCGT -aGATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f; #missing a space after -a???
+    cutadapt -aAGATCGGAAGAGCGT -aGATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f; #missing a space after -a???
 
     ## CHANGE ABSOLUTE PATHS
     bowtie2 -x FeLV_enFeLV_index -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 4 -S $(echo $currentFileName)_mapped_to_enFeLVand61E.sam &> $(echo $currentFileName)enFeLVOutput.txt ;
