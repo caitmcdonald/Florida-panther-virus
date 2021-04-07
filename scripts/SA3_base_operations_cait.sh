@@ -10,6 +10,7 @@
 #SBATCH --error=error-%j
 
 #LOAD CONDA ENV
+source ~/.bashrc
 conda activate enFeLV
 
 echo starting....
