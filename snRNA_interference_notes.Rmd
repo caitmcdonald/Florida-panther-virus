@@ -64,7 +64,42 @@ done
 mv fasta_files/*.bt2 data/
 ```
 
-All fastq files __except__ the two that failed are in the `data`/ directory. (Note: had to remove _ in Mischief_minus and Mischief_plus for code to work)
+All fastq files __except__ the two that failed are in the `data`/ directory. (Note: had to remove _ in Mischief_minus and Mischief_plus for code to work.)
 
+## Trimming and mapping 2: Elliott's script
 
+Following Elliott's script, which I [modified](scripts/SA3_base_operations_cait.sh) for our RNAseq files, I trimmed the raw reads with cutadapt, then mapped them to the indexes generated above.
 
+I made some errors in file renaming, which were easily fixed with a sed loop such as:
+
+```{bash, eval=F}
+for f in *fc.fastq.gz; do mv "$f" "$(echo "$f" | sed s/L002R/L002_R/)"; done
+```
+
+Original job (id 7189207): 70G mem, 22 cpus-per-task, 10H (finished in 00:08:40)
+Second job (id 7190427) to map incorrectly named files: 70G, 22 cpus-per-task, 3H
+
+__Questions:__
+
+1. Why did you run cutadapt -q in single end mode?
+1. I'm getting an error that the adapter sequences provided are incomplete. Specifically, adapter 2 (GATCGGAAGAGCACA) provided is preceded by A 95% of the time and generates an error: 
+          
+          WARNING:
+          The adapter is preceded by "A" extremely often.
+          The provided adapter sequence could be incomplete at its 3' end.
+
+To see where the errors are occurring, use grep to search and print the subsequent 3 lines:
+
+```{bash, eval=F}
+grep -A 3 -B 1 "One or more of your adapter sequences may be incomplete" output-7189207 > cutadapt_warnings.txt
+```
+
+From this file, we can see that the error occurs for every R2 library.
+
+          WARNING:
+              One or more of your adapter sequences may be incomplete.
+              Please see the detailed output above.
+          This is cutadapt 1.18 with Python 3.6.13
+          Command line parameters: --cores=20 -a AGATCGGAAGAGCGT /
+          -a GATCGGAAGAGCACA -o 4438_S1_L002R2_002_fc.fastq.gz /
+          4438_S1_L002R2_001_f.fastq.gz
