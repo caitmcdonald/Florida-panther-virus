@@ -3,7 +3,7 @@
 #CHANGE SLURM OPTIONS:
 #SBATCH --mem 70GB
 #SBATCH --cpus-per-task=22
-#SBATCH --time=10:00:00
+#SBATCH --time=3:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=cait.mcdonald@colostate.edu
 #SBATCH --output=output-%j
@@ -39,20 +39,20 @@ for currentFileName in $uniqlist; do
     #ie if $currentFileName=bab, the command $(echo $currentFileName)$(echo _Some_Extra_Stuff) will produce: bab_Some_Extra_Stuff
     #we store each new filename in a variable
     fileName_1_f=$(echo $currentFileName)$(echo _R1_001_f.fastq.gz);
-    fileName_2_f=$(echo $currentFileName)$(echo R2_001_f.fastq.gz);
-    fileName_1_fc=$(echo $currentFileName)$(echo R1_001_fc.fastq.gz);
-    fileName_2_fc=$(echo $currentFileName)$(echo R2_002_fc.fastq.gz);
+    fileName_2_f=$(echo $currentFileName)$(echo _R2_001_f.fastq.gz);
+    fileName_1_fc=$(echo $currentFileName)$(echo _R1_001_fc.fastq.gz);
+    fileName_2_fc=$(echo $currentFileName)$(echo _R2_001_fc.fastq.gz);
 
     #echo commands to the screen using our variables
     ## CHANGE ABSOLUTE PATHS
-    cutadapt --cores=20 -q 20 -o $fileName_1_f $(echo $currentFileName)_R1_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
-    cutadapt --cores=20 -q 20 -o $fileName_2_f $(echo $currentFileName)_R2_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
-    cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f; #missing a space after -a???
-    cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f; #missing a space after -a???
+    # cutadapt --cores=20 -q 20 -o $fileName_1_f $(echo $currentFileName)_R1_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
+    # cutadapt --cores=20 -q 20 -o $fileName_2_f $(echo $currentFileName)_R2_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
+    # cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f; #missing a space after -a???
+    # cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f; #missing a space after -a???
 
     ## CHANGE ABSOLUTE PATHS
-    bowtie2 -x enFeLV_env -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_env.sam &> $(echo $currentFileName)_enFeLV_env_Output.txt ;
-    bowtie2 -x enFeLV_gag -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_gag.sam &> $(echo $currentFileName)_enFeLV_gag_Output.txt ;
+    # bowtie2 -x enFeLV_env -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_env.sam &> $(echo $currentFileName)_enFeLV_env_Output.txt ;
+    # bowtie2 -x enFeLV_gag -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_gag.sam &> $(echo $currentFileName)_enFeLV_gag_Output.txt ;
     bowtie2 -x enFeLV_LTR -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_LTR.sam &> $(echo $currentFileName)_enFeLV_LTR_Output.txt ;
-    bowtie2 -x enFeLV_pol -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_pol.sam &> $(echo $currentFileName)_enFeLV_pol_Output.txt ;
+    # bowtie2 -x enFeLV_pol -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_pol.sam &> $(echo $currentFileName)_enFeLV_pol_Output.txt ;
 done
