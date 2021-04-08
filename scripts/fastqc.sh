@@ -13,7 +13,9 @@ source ~/.bashrc
 conda activate qctrim
 
 ## run fastqc
-fastqc -t 19 data/samples/*.fastq.gz -o results/fastqc/raw
+# fastqc -t 19 data/samples/*.fastq.gz -o results/fastqc/raw
+fastqc -t 19 data/samples/*fc.fastq.gz -o results/fastqc/trimmed #trimmed files
 
 ## run multiqc
-multiqc results/fastqc/raw -o results/multiqc/raw
+# multiqc results/fastqc/raw -o results/multiqc/raw
+multiqc results/fastqc/trimmed -o results/multiqc/trimmed
