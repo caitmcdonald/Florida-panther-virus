@@ -4,3 +4,6 @@
 .Ruserdata
 data/
 fasta_files/
+results/fastqc/
+
+
