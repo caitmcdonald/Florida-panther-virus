@@ -133,3 +133,4 @@ From this file, we can see that the error occurs for every R2 library, e.g.:
 ## Check trimmed files
 
 At this point, I'll re-run my QC script on the libraries trimmed with cutadapt, just to make sure that adapter content and GC content has improved.
+
