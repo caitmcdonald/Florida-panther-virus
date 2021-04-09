@@ -52,7 +52,7 @@ All the libraries look [okay](results/multiqc/raw/multiqc_report.html), except f
 
 2. `DC1PLUS_S8_L002_R2_001.fastq.gz` seems to have failed sequencing because the file is only 8.8MB. I went back and checked Elliott's files on CVMRIT03, and it's the same size there. __It won't unzip because there's an 'unexpected end of file,' which makes me think it didn't download properly.__ 
 
-3. The GC content for most samples is slightly higher and less normally distributed than expected. The jagged peaks could represent contamination (e.g. adapter content), which will hopefully resolve after trimming. The two red square lines are the failed DC2Pool and DC3Pool libraries:
+3. The GC content for most samples is slightly higher and less normally distributed than expected. The jagged peaks could represent contamination/bias (e.g. low quality sample, multiple species, low yield, PCR amplification bias, adapter contamination), which will hopefully resolve after trimming. The two red square lines are the failed DC2Pool and DC3Pool libraries:
 
 <br>
 
@@ -103,10 +103,30 @@ After this, I manually moved all the resulting files generated via this script t
 
 <br>
 
-### Questions
+## Check trimmed files
 
-1. Why did you run cutadapt -q in single end mode?
-1. I'm getting an error that the adapter sequences provided are incomplete. Specifically, adapter 2 (GATCGGAAGAGCACA) provided is preceded by A 95% of the time and generates an error:
+Following trimming with cutadapt, we can double check that adapter content has been removed by re-running the `fastqc.sh` script and looking at the [multiqc output](results/multiqc/trimmed/multiqc_report.html). Even though we got warnings from cutadapt about our R2 libraries, all libraries now pass the adapter content flag (adapter content ≤0.1%). 
+
+However, GC content is unchanged. Maybe some contamination during library prep?
+
+Per base sequence content isn't great (probably a cutadapt issue).
+
+Sequence duplication levels and overrepresented sequences results are confusing...for example, we would *expect* all libraries to fail sequence duplication, but a few samples don't, which makes me think there's a library issue. Plus we really shouldn't be seeing such a high percentage of overrepresented sequences. This indicates either contamination or lack of library diversity.
+
+Really I need to know more about the library prep and sequencing platform used.
+
+<br>
+
+## Read quantification
+
+According to Elliott's manuscript, he then visually identified mapped reads in Geneious, visually identified exFeLV reads (?), and confirmed exFeLV via tblastn. I'm not sure how he quantified reads? 
+
+<br>
+
+## Questions
+
+1. Why was cutadapt -q run in single end mode?
+2. I'm getting an error that the adapter sequences provided are incomplete. Specifically, adapter 2 (GATCGGAAGAGCACA) provided is preceded by A 95% of the time and generates an error:
 
 <br>
 
@@ -129,11 +149,7 @@ From this file, we can see that the error occurs for every R2 library, e.g.:
           Command line parameters: --cores=20 -a AGATCGGAAGAGCGT /
           -a GATCGGAAGAGCACA -o 4438_S1_L002R2_002_fc.fastq.gz /
           4438_S1_L002R2_001_f.fastq.gz
+          
+3. What were the methods for library prep and sequencing?
 
 <br>
-
-## Check trimmed files
-
-Following trimming with cutadapt, we can double check that adapter content has been removed by re-running the `fastqc.sh` script. Even though we got warnings from cutadapt about our R2 libraries, all libraries now pass the adapter content flag (adapter content ≤0.1%).
-
-
