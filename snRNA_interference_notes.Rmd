@@ -99,6 +99,8 @@ for f in *fc.fastq.gz; do mv "$f" "$(echo "$f" | sed s/L002R/L002_R/)"; done
 Original job (id 7189207): 70G mem, 22 cpus-per-task, 10H (finished in 00:08:40)
 Second job (id 7190427) to map incorrectly named files: 70G, 22 cpus-per-task, 3H (finished in 00:01:04)
 
+After this, I manually moved all the resulting files generated via this script to the results directory.
+
 <br>
 
 ### Questions
@@ -132,5 +134,6 @@ From this file, we can see that the error occurs for every R2 library, e.g.:
 
 ## Check trimmed files
 
-At this point, I'll re-run my QC script on the libraries trimmed with cutadapt, just to make sure that adapter content and GC content has improved.
+Following trimming with cutadapt, we can double check that adapter content has been removed by re-running the `fastqc.sh` script. Even though we got warnings from cutadapt about our R2 libraries, all libraries now pass the adapter content flag (adapter content ≤0.1%).
+
 
