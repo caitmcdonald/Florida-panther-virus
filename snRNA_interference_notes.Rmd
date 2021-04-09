@@ -53,7 +53,7 @@ In terms of samples we have:
 
 I've generated QC files of each library using this [batch script.](scripts/fastqc.sh)
 
-All the libraries look [okay](results/multiqc/raw/multiqc_report.html), except for:
+All the libraries look okay according to [multiqc output](results/multiqc/raw/multiqc_report.html), except for:
 
 1. `DC2Pool_NoIndex_L001_I1_001.fastq.gz` and `DC3Pool_NoIndex_L001_I1_001.fastq.gz`, which are only 8bp long instead of 150bp:
 

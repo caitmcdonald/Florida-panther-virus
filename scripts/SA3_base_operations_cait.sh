@@ -45,15 +45,15 @@ for currentFileName in $uniqlist; do
 
     #echo commands to the screen using our variables
     ## CHANGE ABSOLUTE PATHS
-    # cutadapt --cores=20 -q 20 -o $fileName_1_f $(echo $currentFileName)_R1_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
-    # cutadapt --cores=20 -q 20 -o $fileName_2_f $(echo $currentFileName)_R2_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
-    # cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f; #missing a space after -a???
-    # cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f; #missing a space after -a???
+    cutadapt --cores=20 -q 20 -o $fileName_1_f $(echo $currentFileName)_R1_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
+    cutadapt --cores=20 -q 20 -o $fileName_2_f $(echo $currentFileName)_R2_001.fastq.gz; #CHANGE TO MATCH FILE ENDINGS, MULTITHREAD
+    cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_1_fc $fileName_1_f; #WAS MISSING SPACE AFTER -A
+    cutadapt --cores=20 -a AGATCGGAAGAGCGT -a GATCGGAAGAGCACA -o $fileName_2_fc $fileName_2_f; ##WAS MISSING SPACE AFTER -A
 
     ## CHANGE ABSOLUTE PATHS
     bowtie2 -x enFeLV_full -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_full.sam &> $(echo $currentFileName)_enFeLV_full_Output.txt ;
-    # bowtie2 -x enFeLV_env -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_env.sam &> $(echo $currentFileName)_enFeLV_env_Output.txt ;
-    # bowtie2 -x enFeLV_gag -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_gag.sam &> $(echo $currentFileName)_enFeLV_gag_Output.txt ;
-    # bowtie2 -x enFeLV_LTR -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_LTR.sam &> $(echo $currentFileName)_enFeLV_LTR_Output.txt ;
-    # bowtie2 -x enFeLV_pol -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_pol.sam &> $(echo $currentFileName)_enFeLV_pol_Output.txt ;
+    bowtie2 -x enFeLV_env -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_env.sam &> $(echo $currentFileName)_enFeLV_env_Output.txt ;
+    bowtie2 -x enFeLV_gag -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_gag.sam &> $(echo $currentFileName)_enFeLV_gag_Output.txt ;
+    bowtie2 -x enFeLV_LTR -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_LTR.sam &> $(echo $currentFileName)_enFeLV_LTR_Output.txt ;
+    bowtie2 -x enFeLV_pol -q -1 $fileName_1_fc -2 $fileName_2_fc --no-unal --local --score-min C,120,1 --threads 20 -S $(echo $currentFileName)_mapped_to_enFeLV_pol.sam &> $(echo $currentFileName)_enFeLV_pol_Output.txt ;
 done

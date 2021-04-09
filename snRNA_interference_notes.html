@@ -1727,14 +1727,14 @@ summary {
 <li><strong>Sample QC:</strong> fastqc + multiqc of raw RNAseq reads</li>
 <li><strong>Trimming &amp; Mapping 1:</strong> Generate indexes of enFeLV from the <a href="enFeLV.fasta">fasta file</a> that Elliott provided.</li>
 <li><strong>Trimming &amp; Mapping 2:</strong> Run Elliott’s cutadapt + bowtie2 script, which I have <a href="scripts/SA3_base_operations_cait.sh">amended</a> to work with our new reads.</li>
-<li><strong>Quantification:</strong> generate read counts mapped to each index using TMM normalization.</li>
+<li><strong>Quantification:</strong> generate read counts mapped to each FeLV index using TMM normalization.</li>
 </ol>
 <p><br></p>
 </div>
 <div id="sample-qc" class="section level2">
 <h2>Sample QC</h2>
 <p>I’ve generated QC files of each library using this <a href="scripts/fastqc.sh">batch script.</a></p>
-<p>All the libraries look <a href="results/multiqc/raw/multiqc_report.html">okay</a>, except for:</p>
+<p>All the libraries look okay according to <a href="results/multiqc/raw/multiqc_report.html">multiqc output</a>, except for:</p>
 <ol style="list-style-type: decimal">
 <li><code>DC2Pool_NoIndex_L001_I1_001.fastq.gz</code> and <code>DC3Pool_NoIndex_L001_I1_001.fastq.gz</code>, which are only 8bp long instead of 150bp:</li>
 </ol>
