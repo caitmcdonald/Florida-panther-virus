@@ -4,7 +4,7 @@
 .Ruserdata
 data/
 fasta_files/
-results/fastqc/*.zip
+results/fastqc/trimmed/*.zip
 results/cutadapt/
 results/bt2
 
