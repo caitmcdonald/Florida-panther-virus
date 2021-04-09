@@ -3,7 +3,7 @@
 #CHANGE SLURM OPTIONS:
 #SBATCH --mem 70GB
 #SBATCH --cpus-per-task=22
-#SBATCH --time=3:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=cait.mcdonald@colostate.edu
 #SBATCH --output=output-%j
