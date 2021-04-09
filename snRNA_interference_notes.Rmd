@@ -25,6 +25,19 @@ dir.create("scripts/", recursive = TRUE, showWarnings = FALSE)
 ## Overview
 Based on reviewer feedback, our goal is to integrate RNAseq results from Elliott's PBMC and fibroblast FeLV trial with the transcriptome projects pulled down from NCBI.
 
+In terms of samples we have:
+
+- 6 SPF cats: PBMCs, uninfected only
+- 5 outbred cats: fibroblasts, uninfected and infected
+- 1 puma: fibroblasts, uninfected and infected
+
+## TL;DR (to date)
+
+- DC1PLUS (fibroblasts) fails. fastq file likely incompletely downloaded.
+- Same indexes might have been used for puma and DC4.
+- Puma (fibroblasts) likely failed. No sequence duplication.
+- See questions section.
+
 <br>
 
 ## Pipeline (as I understand it)
@@ -32,7 +45,7 @@ Based on reviewer feedback, our goal is to integrate RNAseq results from Elliott
 1. __Sample QC:__ fastqc + multiqc of raw RNAseq reads
 1. __Trimming & Mapping 1:__ Generate indexes of enFeLV from the [fasta file](enFeLV.fasta) that Elliott provided.
 1. __Trimming & Mapping 2:__ Run Elliott's cutadapt + bowtie2 script, which I have [amended](scripts/SA3_base_operations_cait.sh) to work with our new reads.
-1. __Quantification:__ generate read counts mapped to each index using TMM normalization.
+1. __Quantification:__ generate read counts mapped to each FeLV index using TMM normalization.
 
 <br>
 
@@ -111,7 +124,9 @@ However, GC content is unchanged. Maybe some contamination during library prep?
 
 Per base sequence content isn't great (probably a cutadapt issue).
 
-Sequence duplication levels and overrepresented sequences results are confusing...for example, we would *expect* all libraries to fail sequence duplication, but a few samples don't, which makes me think there's a library issue. Plus we really shouldn't be seeing such a high percentage of overrepresented sequences. This indicates either contamination or lack of library diversity.
+Sequence duplication levels and overrepresented sequences results are confusing...for example, we would *expect* all libraries to fail sequence duplication, but a few samples don't, which makes me think there's a library issue. Specifically, the puma libraries are almost completely devoid of duplication. __Maybe this is because the same indexes were used for the puma and for DC4???__
+
+There's a high percentage of overrepresented sequences. It looks like this is mostly rRNA, so Elliott must have done a total RNA library prep.
 
 Really I need to know more about the library prep and sequencing platform used.
 
@@ -120,6 +135,8 @@ Really I need to know more about the library prep and sequencing platform used.
 ## Read quantification
 
 According to Elliott's manuscript, he then visually identified mapped reads in Geneious, visually identified exFeLV reads (?), and confirmed exFeLV via tblastn. I'm not sure how he quantified reads? 
+
+For the purposes of the snRNA project, I only need to look at *uninfected* samples (N=11; 6 PBMCs, 5 fibroblast)
 
 <br>
 
@@ -151,5 +168,9 @@ From this file, we can see that the error occurs for every R2 library, e.g.:
           4438_S1_L002R2_001_f.fastq.gz
           
 3. What were the methods for library prep and sequencing?
+
+4. Were the same indexes used for Mischief and DC4?
+
+5. What were the methods for transcript quantification?
 
 <br>

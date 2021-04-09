@@ -1690,6 +1690,7 @@ summary {
 <div id="TOC">
 <ul>
 <li><a href="#overview">Overview</a></li>
+<li><a href="#tldr-to-date">TL;DR (to date)</a></li>
 <li><a href="#pipeline-as-i-understand-it">Pipeline (as I understand it)</a></li>
 <li><a href="#sample-qc">Sample QC</a></li>
 <li><a href="#trimming-and-mapping-1">Trimming and mapping 1</a></li>
@@ -1703,6 +1704,21 @@ summary {
 <div id="overview" class="section level2">
 <h2>Overview</h2>
 <p>Based on reviewer feedback, our goal is to integrate RNAseq results from Elliott’s PBMC and fibroblast FeLV trial with the transcriptome projects pulled down from NCBI.</p>
+<p>In terms of samples we have:</p>
+<ul>
+<li>6 SPF cats: PBMCs, uninfected only</li>
+<li>5 outbred cats: fibroblasts, uninfected and infected</li>
+<li>1 puma: fibroblasts, uninfected and infected</li>
+</ul>
+</div>
+<div id="tldr-to-date" class="section level2">
+<h2>TL;DR (to date)</h2>
+<ul>
+<li>DC1PLUS (fibroblasts) fails. fastq file likely incompletely downloaded.</li>
+<li>Same indexes might have been used for puma and DC4.</li>
+<li>Puma (fibroblasts) likely failed. No sequence duplication.</li>
+<li>See questions section.</li>
+</ul>
 <p><br></p>
 </div>
 <div id="pipeline-as-i-understand-it" class="section level2">
@@ -1765,13 +1781,15 @@ mv fasta_files/*.bt2 data/</code></pre>
 <p>Following trimming with cutadapt, we can double check that adapter content has been removed by re-running the <code>fastqc.sh</code> script and looking at the <a href="results/multiqc/trimmed/multiqc_report.html">multiqc output</a>. Even though we got warnings from cutadapt about our R2 libraries, all libraries now pass the adapter content flag (adapter content ≤0.1%).</p>
 <p>However, GC content is unchanged. Maybe some contamination during library prep?</p>
 <p>Per base sequence content isn’t great (probably a cutadapt issue).</p>
-<p>Sequence duplication levels and overrepresented sequences results are confusing…for example, we would <em>expect</em> all libraries to fail sequence duplication, but a few samples don’t, which makes me think there’s a library issue. Plus we really shouldn’t be seeing such a high percentage of overrepresented sequences. This indicates either contamination or lack of library diversity.</p>
+<p>Sequence duplication levels and overrepresented sequences results are confusing…for example, we would <em>expect</em> all libraries to fail sequence duplication, but a few samples don’t, which makes me think there’s a library issue. Specifically, the puma libraries are almost completely devoid of duplication. <strong>Maybe this is because the same indexes were used for the puma and for DC4???</strong></p>
+<p>There’s a high percentage of overrepresented sequences. It looks like this is mostly rRNA, so Elliott must have done a total RNA library prep.</p>
 <p>Really I need to know more about the library prep and sequencing platform used.</p>
 <p><br></p>
 </div>
 <div id="read-quantification" class="section level2">
 <h2>Read quantification</h2>
 <p>According to Elliott’s manuscript, he then visually identified mapped reads in Geneious, visually identified exFeLV reads (?), and confirmed exFeLV via tblastn. I’m not sure how he quantified reads?</p>
+<p>For the purposes of the snRNA project, I only need to look at <em>uninfected</em> samples (N=11; 6 PBMCs, 5 fibroblast)</p>
 <p><br></p>
 </div>
 <div id="questions" class="section level2">
@@ -1796,7 +1814,9 @@ mv fasta_files/*.bt2 data/</code></pre>
       4438_S1_L002R2_001_f.fastq.gz
       </code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>What were the methods for library prep and sequencing?</li>
+<li><p>What were the methods for library prep and sequencing?</p></li>
+<li><p>Were the same indexes used for Mischief and DC4?</p></li>
+<li><p>What were the methods for transcript quantification?</p></li>
 </ol>
 <p><br></p>
 </div>
