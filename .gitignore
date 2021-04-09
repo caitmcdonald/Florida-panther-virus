@@ -5,5 +5,7 @@
 data/
 fasta_files/
 results/fastqc/
+results/cutadapt/
+results/bt2
 
 
