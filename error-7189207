@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/projects/camcd@colostate.edu/miniconda3/envs/enFeLV/bin/cutadapt", line 12, in <module>
-    sys.exit(main())
-  File "/projects/camcd@colostate.edu/miniconda3/envs/enFeLV/lib/python3.6/site-packages/cutadapt/__main__.py", line 798, in main
-    stats = runner.run()
-  File "/projects/camcd@colostate.edu/miniconda3/envs/enFeLV/lib/python3.6/site-packages/cutadapt/pipeline.py", line 666, in run
-    raise e
-OSError: pigz: skipping: DC1PLUS_S8_L002_R2_001.fastq.gz: corrupted -- incomplete deflate data
-pigz: abort: internal threads error
